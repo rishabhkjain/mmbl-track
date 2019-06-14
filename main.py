@@ -29,7 +29,7 @@ pngStackPath = "media\\" + args["input"] + "\*.png" #create path to pngStack
 frames = pims.ImageSequence(pngStackPath, as_grey = True) #import pngstack into trackpy
 startFrame = 0
 endFrame = len(frames) 
-trajCont = 10 #minimum number of times the particle's trajectory needs to be identified
+trajCont = 75 #minimum number of times the particle's trajectory needs to be identified
 frameCount = endFrame - startFrame
 
 
