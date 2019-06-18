@@ -26,6 +26,7 @@ args = vars(ap.parse_args())
 
 
 pngStackPath = "media\\" + args["input"] + "\*.png" #create path to pngStack
+print(pngStackPath)
 frames = pims.ImageSequence(pngStackPath, as_grey = True) #import pngstack into trackpy
 startFrame = 0
 endFrame = len(frames) 
@@ -94,7 +95,7 @@ for i in range (startFrame,endFrame-1):
             fullDict[index] = tmpDict
 
 #store the data in results
-outputPath = str(args["output"]) +  '\\' + str(args["input"])
+outputPath = str(args["output"]) +  '\\' + str(args["input"]) + "_filtered"
 try:
     os.mkdir(outputPath)
 except:
