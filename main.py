@@ -10,6 +10,11 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series  # for convenience
 import os
+import pickle
+import imageio
+import cv2
+import glob
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 import pims
 import trackpy as tp
@@ -30,8 +35,8 @@ print(pngStackPath)
 frames = pims.ImageSequence(pngStackPath, as_grey = True) #import pngstack into trackpy
 startFrame = 0
 endFrame = len(frames) 
-trajCont = 75 #minimum number of times the particle's trajectory needs to be identified
 frameCount = endFrame - startFrame
+trajCont = int(0.4 * (frameCount)) #minimum number of times the particle's trajectory needs to be identified
 
 
 
@@ -117,9 +122,32 @@ for miniDict in fullDict:
 trajFig = plt.figure()
 trajPlot =  tp.plot_traj(t1)
 trajFig.savefig(outputPath + '\\' + 'traj.png')
-
+def cvtFig2Numpy(fig):
+    canvas = FigureCanvas(fig)
+    canvas.draw()
+    
+    width, height = fig.get_size_inches() * fig.get_dpi()
+    image = np.fromstring(canvas.tostring_rgb(), dtype='uint8').reshape(height.astype(np.uint32), width.astype(np.uint32), 3)    
+    return image
+    
+def makevideoFromArray(movieName, array, fps=25):
+    imageio.mimwrite(movieName, array, fps=fps);
 idFig = plt.figure()
 idPlot = tp.annotate(t1[t1['frame'] == 0], frames[0])
 idFig.savefig(outputPath + '\\' +'id.png')
+arr = []
+img = glob.glob(pngStackPath)
+for i,idx in enumerate(img):
+    frame = cv2.imread(idx)
+    fig = plt.figure(figsize=(16, 8))
+    plt.imshow(frame)
+    axes = tp.plot_traj(t1.query('frame<={0}'.format(i)))
+    axes.set_yticklabels([])
+    axes.set_xticklabels([])
+    axes.get_xaxis().set_ticks([])
+    axes.get_yaxis().set_ticks([])
+    arr.append(cvtFig2Numpy(fig))
+    plt.close('all')
+    
 
-           
+makevideoFromArray(outputPath + "\\trajvid.mp4", arr, 3)
