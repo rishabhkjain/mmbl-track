@@ -10,6 +10,12 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series  # for convenience
 import os
+import pickle
+import imageio
+import cv2
+import glob
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
 
 import pims
 import trackpy as tp
@@ -22,15 +28,18 @@ ap.add_argument("-i", "--input", required=True,
 	help="folder name in media")
 ap.add_argument("-o", "--output", required=True,
 	help="path to output directory")
+ap.add_argument("-s", "--start", required=True,
+	help="Start frame number")
 args = vars(ap.parse_args())
 
 
-pngStackPath = "media//" + args["input"] + "/*.png" #create path to pngStack
+pngStackPath = args["input"] + "/*.png" #create path to pngStack
+print(pngStackPath)
 frames = pims.ImageSequence(pngStackPath, as_grey = True) #import pngstack into trackpy
-startFrame = 0
+startFrame = int(args["start"])
 endFrame = len(frames) 
-trajCont = 75 #minimum number of times the particle's trajectory needs to be identified
 frameCount = endFrame - startFrame
+trajCont = int(0.4 * (frameCount)) #minimum number of times the particle's trajectory needs to be identified
 
 
 
@@ -92,9 +101,20 @@ for i in range (startFrame,endFrame-1):
             tmpDict = fullDict[index]
             tmpDict[i] = snapshot
             fullDict[index] = tmpDict
+def findLatest(s, c):
+    count = 0
+    strLen = len(s)
+    for i in range(strLen-1, -1, -1):
+        if s[i] == c and count == 1:
+            return i
+        if s[i] == c:
+            count += 1
 
+    return 0
+begin = findLatest(args["input"], "/")
+print (args["input"][begin+1:])
 #store the data in results
-outputPath = str(args["output"]) +  '//' + str(args["input"]) + "_filtered"
+outputPath = str(args["output"]) +  '//' + str(args["input"][begin+1:-1]) + "_filtered"
 try:
     os.mkdir(outputPath)
 except:
@@ -118,7 +138,41 @@ trajPlot =  tp.plot_traj(t1)
 trajFig.savefig(outputPath + '//' + 'traj.png')
 
 idFig = plt.figure()
-idPlot = tp.annotate(t1[t1['frame'] == 0], frames[0])
+idPlot = tp.annotate(t1[t1['frame'] == startFrame], frames[startFrame])
 idFig.savefig(outputPath + '//' +'id.png')
 
            
+# def cvtFig2Numpy(fig):
+#     canvas = FigureCanvas(fig)
+#     canvas.draw()
+    
+#     width, height = fig.get_size_inches() * fig.get_dpi()
+#     image = np.fromstring(canvas.tostring_rgb(), dtype='uint8').reshape(height.astype(np.uint32), width.astype(np.uint32), 3)    
+#     return image
+    
+# def makevideoFromArray(movieName, array, fps=25):
+#     imageio.mimwrite(movieName, array, fps=fps);
+# idFig = plt.figure()
+# idPlot = tp.annotate(t1[t1['frame'] == startFrame], frames[startFrame])
+# idFig.savefig(outputPath + '//' +'id.png')
+# arr = []
+# img = glob.glob(pngStackPath)
+# for i,idx in enumerate(img):
+#     if i < startFrame:
+#         continue
+#     frame = cv2.imread(idx)
+#     fig = plt.figure(figsize=(16, 8))
+#     plt.imshow(frame)
+#     axes = tp.plot_traj(t1.query('frame<={0}'.format(i)))
+#     axes.set_yticklabels([])
+#     axes.set_xticklabels([])
+#     axes.get_xaxis().set_ticks([])
+#     axes.get_yaxis().set_ticks([])
+#     arr.append(cvtFig2Numpy(fig))
+#     plt.close('all')
+    
+
+# makevideoFromArray(outputPath + "//trajvid.mp4", arr, 4)
+
+    
+
