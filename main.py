@@ -132,6 +132,9 @@ for miniDict in fullDict:
 trajFig = plt.figure()
 trajPlot =  tp.plot_traj(t1)
 trajFig.savefig(outputPath + '\\' + 'traj.png')
+idFig = plt.figure()
+idPlot = tp.annotate(t1[t1['frame'] == startFrame], frames[startFrame])
+idFig.savefig(outputPath + '\\' +'id.png')
 # def cvtFig2Numpy(fig):
 #     canvas = FigureCanvas(fig)
 #     canvas.draw()
@@ -142,9 +145,7 @@ trajFig.savefig(outputPath + '\\' + 'traj.png')
     
 # def makevideoFromArray(movieName, array, fps=25):
 #     imageio.mimwrite(movieName, array, fps=fps);
-# idFig = plt.figure()
-# idPlot = tp.annotate(t1[t1['frame'] == startFrame], frames[startFrame])
-# idFig.savefig(outputPath + '\\' +'id.png')
+# 
 # arr = []
 # img = glob.glob(pngStackPath)
 # for i,idx in enumerate(img):
