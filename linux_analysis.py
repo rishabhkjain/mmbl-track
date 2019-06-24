@@ -16,8 +16,9 @@ path = args["input"]
 
 folderLst = os.listdir(path)
 for item in folderLst:
-    print(path + "\\" + item)
-    subprocess.call(['python','main.py',  '--input', path + "\\" + item, '-o', 'results\\dsdna_s2', '-s', '180'], shell = True)
+    # print(path  + item)
+    subprocess.call(['python','linux_main.py',  '-i', path + item, '-o', 'results//dsdna_s1', '-s', '180'])
+    
 
 
 

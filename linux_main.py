@@ -114,7 +114,7 @@ def findLatest(s, c):
 begin = findLatest(args["input"], "/")
 print (args["input"][begin+1:])
 #store the data in results
-outputPath = str(args["output"]) +  '//' + str(args["input"][begin+1:-1]) + "_filtered"
+outputPath = str(args["output"]) +  '//' + str(args["input"][begin+1:]) + "_filtered"
 try:
     os.mkdir(outputPath)
 except:
