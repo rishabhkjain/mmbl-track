@@ -22,12 +22,10 @@ args = vars(ap.parse_args())
 path = args["input"] 
 
 dirLst = os.listdir(path)
-
 for item in dirLst:
-    vidDir = curLoc + "\\"  + path + "\\" + item
-    os.chdir(vidDir)
-    vidPath = vidDir + "\\" + os.listdir()[0]
-    print(vidPath)
-    subprocess.call(['ffmpeg', '-i', vidPath, '-r', '4', vidDir + "\\outputFile%04d.png"])
+    if item[-1] == "4":
+        continue
+    print(path + "\\" + item)
+    subprocess.call(['python', 'circletest.py', '--input', path + "\\" + item])
 
-print(dirLst)
+# print(dirLst)

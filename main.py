@@ -145,7 +145,7 @@ idFig.savefig(outputPath + '\\' +'id.png')
     
 # def makevideoFromArray(movieName, array, fps=25):
 #     imageio.mimwrite(movieName, array, fps=fps);
-# 
+
 # arr = []
 # img = glob.glob(pngStackPath)
 # for i,idx in enumerate(img):
