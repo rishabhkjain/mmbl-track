@@ -16,16 +16,23 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
 	help="directory of videos")
 args = vars(ap.parse_args())
-
-
-
 path = args["input"] 
+
+newPath = path + "_blurred"
+try:
+	os.mkdir(newPath)
+except:
+	print("Overwriting Data")
+
+
+
+
 
 dirLst = os.listdir(path)
 for item in dirLst:
     if item[-1] == "4":
         continue
     print(path + "\\" + item)
-    subprocess.call(['python', 'circletest.py', '--input', path + "\\" + item])
+    subprocess.call(['python', 'circletest.py', '--input', path + "\\" + item, "--output", newPath + "\\" + item])
 
 # print(dirLst)

@@ -1,16 +1,17 @@
 import numpy as np 
 import cv2
 import argparse
+import os
 
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
 	help="directory of videos")
-
+ap.add_argument("-o", "--output", required=True,
+	help="path to output directory")
 args = vars(ap.parse_args())
-
-
 path = args["input"] 
+outputPath = args["output"] 
 
 image = cv2.imread(path)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -53,4 +54,4 @@ if smallCircles is not None:
 color = int(image[int(height-5)][int(width- 5)][0])
 fullColor = (color, color, color)
 cv2.rectangle(output, (width- dX, height-dY), (width, height), fullColor, -1)
-cv2.imwrite(path, output)
+cv2.imwrite(outputPath, output)
