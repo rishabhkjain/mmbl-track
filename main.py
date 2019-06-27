@@ -15,7 +15,7 @@ import imageio
 import cv2
 import glob
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-
+from pathlib import Path
 import pims
 import trackpy as tp
 mpl.use('Agg')
@@ -25,22 +25,24 @@ mpl.use('Agg')
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
 	help="input path")
+ap.add_argument("-c", "--clean", required=True,
+	help="path to clean images")
 ap.add_argument("-o", "--output", required=True,
 	help="path to output directory")
 ap.add_argument("-s", "--start", required=True,
 	help="Start frame number")
+
 args = vars(ap.parse_args())
 
 
 pngStackPath = args["input"] + "\*.png" #create path to pngStack
 frames = pims.ImageSequence(pngStackPath, as_grey = True) #import pngstack into trackpy
-
+cleanStackPath = args["clean"] + "\*.png"
 startFrame = int(args["start"])
 endFrame = len(frames) 
 frameCount = endFrame - startFrame
 trajCont = int(0.4 * (frameCount)) #minimum number of times the particle's trajectory needs to be identified
-
-
+cleanFrames =  pims.ImageSequence(cleanStackPath, as_grey = True)
 
 #f is a dataframe containing all locations particles were located
 # diameter & minmass need to be adjusted based on sample
@@ -130,37 +132,37 @@ for miniDict in fullDict:
         for key, value in fullDict[miniDict].items():
             writer.writerow([key, value[0], value[1],value[2],value[3]])
 trajFig = plt.figure()
-trajPlot =  tp.plot_traj(t1)
+trajPlot =  tp.plot_traj(t1, id = True)
 trajFig.savefig(outputPath + '\\' + 'traj.png')
 idFig = plt.figure()
-idPlot = tp.annotate(t1[t1['frame'] == startFrame], frames[startFrame])
+idPlot = tp.annotate(t1[t1['frame'] == startFrame], cleanFrames[startFrame])
 idFig.savefig(outputPath + '\\' +'id.png')
-# def cvtFig2Numpy(fig):
-#     canvas = FigureCanvas(fig)
-#     canvas.draw()
+def cvtFig2Numpy(fig):
+    canvas = FigureCanvas(fig)
+    canvas.draw()
     
-#     width, height = fig.get_size_inches() * fig.get_dpi()
-#     image = np.fromstring(canvas.tostring_rgb(), dtype='uint8').reshape(height.astype(np.uint32), width.astype(np.uint32), 3)    
-#     return image
+    width, height = fig.get_size_inches() * fig.get_dpi()
+    image = np.fromstring(canvas.tostring_rgb(), dtype='uint8').reshape(height.astype(np.uint32), width.astype(np.uint32), 3)    
+    return image
     
-# def makevideoFromArray(movieName, array, fps=25):
-#     imageio.mimwrite(movieName, array, fps=fps);
+def makevideoFromArray(movieName, array, fps=25):
+    imageio.mimwrite(movieName, array, fps=fps);
 
-# arr = []
-# img = glob.glob(pngStackPath)
-# for i,idx in enumerate(img):
-#     if i < startFrame:
-#         continue
-#     frame = cv2.imread(idx)
-#     fig = plt.figure(figsize=(16, 8))
-#     plt.imshow(frame)
-#     axes = tp.plot_traj(t1.query('frame<={0}'.format(i)))
-#     axes.set_yticklabels([])
-#     axes.set_xticklabels([])
-#     axes.get_xaxis().set_ticks([])
-#     axes.get_yaxis().set_ticks([])
-#     arr.append(cvtFig2Numpy(fig))
-#     plt.close('all')
+arr = []
+img = glob.glob(cleanStackPath)
+for i,idx in enumerate(img):
+    if i < startFrame:
+        continue
+    frame = cv2.imread(idx)
+    fig = plt.figure(figsize=(16, 8))
+    plt.imshow(frame)
+    axes = tp.plot_traj(t1.query('frame<={0}'.format(i)))
+    axes.set_yticklabels([])
+    axes.set_xticklabels([])
+    axes.get_xaxis().set_ticks([])
+    axes.get_yaxis().set_ticks([])
+    arr.append(cvtFig2Numpy(fig))
+    plt.close('all')
     
 
-# makevideoFromArray(outputPath + "\\trajvid.mp4", arr, 4)
+makevideoFromArray(outputPath + "\\trajvid.mp4", arr, 4)
