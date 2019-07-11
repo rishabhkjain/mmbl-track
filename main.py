@@ -19,6 +19,7 @@ from pathlib import Path
 import pims
 import trackpy as tp
 mpl.use('Agg')
+from pathlib import Path
 
 
 # construct the argument parser and parse the arguments
@@ -34,15 +35,17 @@ ap.add_argument("-s", "--start", required=True,
 
 args = vars(ap.parse_args())
 
+tmpPath = Path(args["input"])
+pngStackPath = tmpPath / "*.png" 
 
-pngStackPath = args["input"] + "\*.png" #create path to pngStack
-frames = pims.ImageSequence(pngStackPath, as_grey = True) #import pngstack into trackpy
-cleanStackPath = args["clean"] + "\*.png"
+frames = pims.ImageSequence(str(pngStackPath), as_grey = True) #import pngstack into trackpy
+tmpCleanPath = Path(args["clean"])
+cleanStackPath = tmpCleanPath  / "*.png"
 startFrame = int(args["start"])
 endFrame = len(frames) 
 frameCount = endFrame - startFrame
 trajCont = int(0.4 * (frameCount)) #minimum number of times the particle's trajectory needs to be identified
-cleanFrames =  pims.ImageSequence(cleanStackPath, as_grey = True)
+cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
 
 #f is a dataframe containing all locations particles were located
 # diameter & minmass need to be adjusted based on sample
@@ -112,57 +115,59 @@ def findLatest(s, c):
 begin = findLatest(args["input"], "\\")
 print(begin)
 #store the data in results
-outputPath = str(args["output"]) +  '\\' + str(args["input"][begin+1:]) + "_filtered"
+tmpOutputPath = Path(args["output"])
+outputPath = Path(tmpOutputPath / (str(args["input"][begin+1:])  + "_filtered"))
+print(outputPath)
 try:
     os.mkdir(outputPath)
 except:
     print("Overwriting data - directory already exists")
-with open(outputPath + '\\compactResults.csv', 'w') as csv_file:
+with open(outputPath  / 'compactResults.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
     for key, value in compactDict.items():
         writer.writerow([key, value[0], value[1], value[2], value[3]])
 try:
-    os.mkdir(outputPath + '\\' + "detailedResults") 
+    os.mkdir(outputPath / "detailedResults") 
 except:
     print("Overwriting data - directory already exists")
        
 for miniDict in fullDict:
-    with open(outputPath + '\\' + "detailedResults" + '\\' + str(miniDict) + '_detailedResult.csv', 'w') as csv_file:
+    with open(outputPath / "detailedResults"  / (str(miniDict) + '_detailedResult.csv'), 'w') as csv_file:
         writer = csv.writer(csv_file)
         for key, value in fullDict[miniDict].items():
             writer.writerow([key, value[0], value[1],value[2],value[3]])
 trajFig = plt.figure()
 trajPlot =  tp.plot_traj(t1, id = True)
-trajFig.savefig(outputPath + '\\' + 'traj.png')
+trajFig.savefig(outputPath / 'traj.png')
 idFig = plt.figure()
 idPlot = tp.annotate(t1[t1['frame'] == startFrame], cleanFrames[startFrame])
-idFig.savefig(outputPath + '\\' +'id.png')
-def cvtFig2Numpy(fig):
-    canvas = FigureCanvas(fig)
-    canvas.draw()
+idFig.savefig(outputPath  / "id.png")
+# def cvtFig2Numpy(fig):
+#     canvas = FigureCanvas(fig)
+#     canvas.draw()
     
-    width, height = fig.get_size_inches() * fig.get_dpi()
-    image = np.fromstring(canvas.tostring_rgb(), dtype='uint8').reshape(height.astype(np.uint32), width.astype(np.uint32), 3)    
-    return image
+#     width, height = fig.get_size_inches() * fig.get_dpi()
+#     image = np.fromstring(canvas.tostring_rgb(), dtype='uint8').reshape(height.astype(np.uint32), width.astype(np.uint32), 3)    
+#     return image
     
-def makevideoFromArray(movieName, array, fps=25):
-    imageio.mimwrite(movieName, array, fps=fps);
+# def makevideoFromArray(movieName, array, fps=25):
+#     imageio.mimwrite(movieName, array, fps=fps);
 
-arr = []
-img = glob.glob(cleanStackPath)
-for i,idx in enumerate(img):
-    if i < startFrame:
-        continue
-    frame = cv2.imread(idx)
-    fig = plt.figure(figsize=(16, 8))
-    plt.imshow(frame)
-    axes = tp.plot_traj(t1.query('frame<={0}'.format(i)))
-    axes.set_yticklabels([])
-    axes.set_xticklabels([])
-    axes.get_xaxis().set_ticks([])
-    axes.get_yaxis().set_ticks([])
-    arr.append(cvtFig2Numpy(fig))
-    plt.close('all')
+# arr = []
+# img = glob.glob(cleanStackPath)
+# for i,idx in enumerate(img):
+#     if i < startFrame:
+#         continue
+#     frame = cv2.imread(idx)
+#     fig = plt.figure(figsize=(16, 8))
+#     plt.imshow(frame)
+#     axes = tp.plot_traj(t1.query('frame<={0}'.format(i)))
+#     axes.set_yticklabels([])
+#     axes.set_xticklabels([])
+#     axes.get_xaxis().set_ticks([])
+#     axes.get_yaxis().set_ticks([])
+#     arr.append(cvtFig2Numpy(fig))
+#     plt.close('all')
     
 
-makevideoFromArray(outputPath + "\\trajvid.mp4", arr, 4)
+# makevideoFromArray(outputPath / trajvid.mp4", arr, 4)
