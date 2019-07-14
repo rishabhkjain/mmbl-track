@@ -30,6 +30,6 @@ for item in dirLst:
     os.chdir(vidDir)
     vidPath = vidDir /  os.listdir()[0]
     print(vidPath)
-    subprocess.call(['ffmpeg', '-i', vidPath, '-r', '4', vidDir + "\\outputFile%04d.png"])
+    # subprocess.call(['ffmpeg', '-i', vidPath, '-r', '4', vidDir + "\\outputFile%04d.png"])
 
 print(dirLst)

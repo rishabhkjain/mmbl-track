@@ -8,7 +8,7 @@ def findLatest(s, c):
         if s[i] == c:
             return i
 
-    return 0
+    return 0 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
 	help="directory of videos")
