@@ -25,7 +25,6 @@ dirLst = os.listdir(path)
 for item in dirLst:
     if item[-1] == "4":
         continue
-    print(path / item)
     subprocess.call(['python', 'blurPhoto.py', '--input',str( path / item), "--output", str(newPath  / item)])
 
 # print(dirLst)

@@ -16,3 +16,4 @@ dirLst = os.listdir(path)
 
 for item in dirLst:
     subprocess.call(['python', 'blurVideo.py', '--input', path / item])
+    print item

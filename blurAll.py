@@ -18,9 +18,8 @@ dirLst = list()
 for root,dirs,files in os.walk(path):
     if not dirs:
         dirLst.append(root)
-print(dirLst)
 
 
 for item in dirLst:
-    a = 1
-    # subprocess.call(['python', 'blurVideo.py', '--input', path / item])
+    print (item)
+    subprocess.call(['python', 'blurVideo.py', '--input', path / item])
