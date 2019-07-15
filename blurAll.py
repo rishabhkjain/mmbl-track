@@ -22,4 +22,4 @@ for root,dirs,files in os.walk(path):
 
 for item in dirLst:
     print (item)
-    subprocess.call(['python', 'blurVideo.py', '--input', path / item])
+    subprocess.call(['python', 'blurVideo.py', '--input',  item])
