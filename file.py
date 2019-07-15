@@ -1,39 +1,32 @@
 import os
 import argparse
 import glob
+from pathlib import Path
+import copy
 
-def findLatest(s, c):
-    strLen = len(s)
-    for i in range(strLen-1, -1, -1):
-        if s[i] == c:
-            return i
-
-    return 0 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
 	help="directory of videos")
 
 args = vars(ap.parse_args())
 
-
-path = args["input"] 
-
-fileLst = (glob.glob(path + "/*.mp4"))
+path = Path(args["input"])
 
 
-for item in fileLst:
-    finish = findLatest(item, ".")
-    begin = findLatest(item, "\\")
-    folderName = item[0: finish]
-    newFilePath = folderName + "\\" + "video.mp4"
+fullList = list(path.glob('**/*.mp4'))
+
+print(fullList)
+for j in range (len(fullList)):
+    tmpPath = Path((str(fullList[j]).split("."))[0])
+    newFilePath = tmpPath / "video.mp4"
     try:
-        os.mkdir(folderName)
+        os.mkdir(tmpPath)
     except:
         print("Overwriting Data")
     try:
-        os.rename(item, newFilePath)
+        os.rename(fullList[j], newFilePath)
     except:
         print("Overwriting Data")
   
-    # print (item, folderName)
+    print (fullList[j], tmpPath)
 
