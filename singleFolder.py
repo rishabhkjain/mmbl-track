@@ -15,20 +15,20 @@ path = Path(args["input"])
 
 fullList = list(path.glob('**/*.mp4'))
 
-print(fullList)
+#print(fullList)
 for j in range (len(fullList)):
     tmpPath = Path((str(fullList[j]).split("."))[0])
     newFilePath = tmpPath / "video.mp4"
     print ("full path", newFilePath)
     print("Tmp Path", tmpPath)
-    # try:
-    #     os.mkdir(tmpPath)
-    # except:
-    #     print("Overwriting Data")
-    # try:
-    #     os.rename(fullList[j], newFilePath)
-    # except:
-    #     print("Overwriting Data")
+    try:
+        os.mkdir(tmpPath)
+    except:
+        print("Overwriting Data")
+    try:
+        os.rename(fullList[j], newFilePath)
+    except:
+        print("Overwriting Data")
   
     # print (fullList[j], tmpPath)
 
