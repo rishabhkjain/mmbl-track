@@ -6,9 +6,9 @@ import os
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
-	help="directory of videos")
+	help="path to input image")
 ap.add_argument("-o", "--output", required=True,
-	help="path to output directory")
+	help="path to output image")
 args = vars(ap.parse_args())
 path = args["input"] 
 outputPath = args["output"] 

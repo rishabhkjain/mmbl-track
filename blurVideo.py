@@ -33,6 +33,6 @@ for item in dirLst:
     if item[-1] == "4":
         continue
     print(path + "\\" + item)
-    subprocess.call(['python', 'circletest.py', '--input', path + "\\" + item, "--output", newPath + "\\" + item])
+    subprocess.call(['python', 'blurPhoto.py', '--input', path + "\\" + item, "--output", newPath + "\\" + item])
 
 # print(dirLst)

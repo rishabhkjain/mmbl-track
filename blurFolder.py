@@ -15,4 +15,4 @@ path = Path(args["input"])
 dirLst = os.listdir(path)
 
 for item in dirLst:
-    subprocess.call(['python', 'batch.py', '--input', path / item])
+    subprocess.call(['python', 'blurVideo.py', '--input', path / item])
