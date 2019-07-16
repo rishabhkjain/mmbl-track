@@ -8,23 +8,37 @@ from pathlib import Path
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True,
 	help="directory of videos")
+ap.add_argument("-o", "--output", required=True,
+	help="path to output directory")
 args = vars(ap.parse_args())
 path = Path(args["input"])
+outputPath = Path(args["output"])
 
 
 
-dirLst = list()
+blurredLst = list()
 
 for root,dirs,files in os.walk(path):
     if not dirs:
-        dirLst.append(root)
-print(dirLst)
+        blurredLst.append(Path(root))
+cleanLst = list()
+resultLst = list()
 
-for i in range(len(dirLst)):
-    if "blurred" not in str(dirLst[i]):
-        dirLst[i] = "\v"
+for i in range(len(blurredLst)):
+    if "blurred" not in str(blurredLst[i]):
+        cleanLst.append(blurredLst[i])
+        resultLst.append(cleanLst[-1].parts[-1])
+        blurredLst[i] = "\v"
 
-while "\v" in dirLst:
-    dirLst.remove("\v")
-
-print(dirLst)
+while "\v" in blurredLst:
+    blurredLst.remove("\v")
+for i in range (len(blurredLst)):
+    print (blurredLst[i])
+    print (cleanLst[i])
+    print(resultLst[i])
+if len(blurredLst) != len(cleanLst):
+    print ("Folder Error")
+else:
+    print ("Running Analysis")
+    for i in range (len(blurredLst)):
+        subprocess.call(['python','main.py',  '--input', str(blurredLst[i]), '-c', str(cleanLst[i]), '-o', str(outputPath / resultLst[i]), '-s', '180'], shell = False)

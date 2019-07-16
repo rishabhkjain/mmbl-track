@@ -115,8 +115,7 @@ def findLatest(s, c):
 begin = findLatest(args["input"], "\\")
 print(begin)
 #store the data in results
-tmpOutputPath = Path(args["output"])
-outputPath = Path(tmpOutputPath / (str(args["input"][begin+1:])  + "_filtered"))
+outputPath = Path(args["output"])
 print(outputPath)
 try:
     os.mkdir(outputPath)
