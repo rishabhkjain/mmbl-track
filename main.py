@@ -62,7 +62,12 @@ print('After:', t1['particle'].nunique())
 numParticles = t1['particle'].nunique()
 #main loop which stores the data
 for i in range (startFrame,endFrame-1):
-    tv = tp.relate_frames(t1, i, i+1)
+    print(i)
+    try:
+        tv = tp.relate_frames(t1, i, i+1)
+    except:
+        print ("Velocity Error")
+        continue
     for index, row in tv.iterrows():
         #extract the data from the dataframe 
         tempDX = row['dx']
