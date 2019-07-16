@@ -23,11 +23,12 @@ for root,dirs,files in os.walk(path):
         blurredLst.append(Path(root))
 cleanLst = list()
 resultLst = list()
-
+blurLst = list()
 for i in range(len(blurredLst)):
     if "blurred" not in str(blurredLst[i]):
         cleanLst.append(blurredLst[i])
         resultLst.append(cleanLst[-1].parts[-1])
+        blurLst.append(Path(str(blurredLst[i]) + "_blurred"))
         blurredLst[i] = "\v"
 
 while "\v" in blurredLst:
@@ -41,4 +42,5 @@ if len(blurredLst) != len(cleanLst):
 else:
     print ("Running Analysis")
     for i in range (len(blurredLst)):
-        subprocess.call(['python','main.py',  '--input', str(blurredLst[i]), '-c', str(cleanLst[i]), '-o', str(outputPath / resultLst[i]), '-s', '180'], shell = False)
+        print (blurLst[i], cleanLst[i], resultLst[i])
+        subprocess.call(['python','main.py',  '--input', str(blurLst[i]), '-c', str(cleanLst[i]), '-o', str(outputPath / resultLst[i]), '-s', '180'], shell = False)
