@@ -33,7 +33,7 @@ with open(folderPath / "compactResults.csv",'r') as csvfile:
 
 displacementDistrib = plt.figure()
 plt.hist(deltaLst,range=[0, 2000], bins = 20)
-plt.xlabel("Frame")
+plt.xlabel("Distance (px)")
 plt.ylabel("Count")
 plt.savefig(folderPath / "displacement.png")
 try:
