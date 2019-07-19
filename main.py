@@ -12,7 +12,7 @@ from pandas import DataFrame, Series  # for convenience
 import os
 import pickle
 import imageio
-import cv2
+# import cv2
 import glob
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from pathlib import Path
@@ -20,6 +20,7 @@ import pims
 import trackpy as tp
 mpl.use('Agg')
 from pathlib import Path
+import math
 
 
 # construct the argument parser and parse the arguments
@@ -53,11 +54,19 @@ f = tp.batch(frames[startFrame:endFrame],diameter= 19, invert=True, minmass = 35
 t = tp.link_df(f, 12, memory=12)
 compactDict = {} #dictionaries for storing relevant data
 fullDict = {}
+locDict = {}
 particleLst = set()
 t1 = tp.filter_stubs(t, trajCont) #filter out the trajectories that do not exist longer than trajCount
 # Compare the number of particles in the unfiltered and filtered data.
 print('Before:', t['particle'].nunique())
 print('After:', t1['particle'].nunique())
+def getDistance(index, x2, y2, d):
+    x1 = d[index][0]
+    y1 = d[index][1]
+    dx = abs(x1 - x2)
+    dy = abs(y1 - y2)
+    d = math.sqrt(dx*dx + dy*dy)
+    return d
 
 numParticles = t1['particle'].nunique()
 #main loop which stores the data
@@ -95,7 +104,7 @@ for i in range (startFrame,endFrame-1):
             tempY1 = 0
         if pd.isna(tempY2):
             tempY2 = 0
-        snapshot = (tempDX, tempDY, tempDT, tempDir, tempX1, tempX2, tempY1, tempY2)
+        snapshot = (tempDX, tempDY, tempDT, tempDir, tempX1, tempY1, tempX2,  tempY2)
 
 
         if index not in compactDict:
@@ -106,12 +115,15 @@ for i in range (startFrame,endFrame-1):
             indexLst.append(i)
             totalDist = tempDT
             count = 1
-            compactDict[index] = [totalDist, count,dirList, indexLst]
+            displacement = 0
+            locDict[index] = (tempX1, tempY1)
+            compactDict[index] = [totalDist, count,dirList, indexLst, displacement]
         else:
             compactDict[index][3].append(i)
             compactDict[index][2].append(tempDir)
             compactDict[index][1] += 1
             compactDict[index][0] += tempDT
+            compactDict[index][4] = getDistance(index, tempX2, tempY2, locDict)
         if index not in fullDict:
             particleLst.add(index)
             tmpDict = {}
