@@ -50,7 +50,7 @@ cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
 #f is a dataframe containing all locations particles were located
 # diameter & minmass need to be adjusted based on sample
 f = tp.batch(frames[startFrame:endFrame],diameter= 19, invert=True, minmass = 3500) 
-t = tp.link_df(f, 5, memory=5)
+t = tp.link_df(f, 25, memory=25)
 compactDict = {} #dictionaries for storing relevant data
 fullDict = {}
 particleLst = set()
@@ -142,10 +142,14 @@ for miniDict in fullDict:
             writer.writerow([key, value[0], value[1],value[2],value[3]])
 trajFig = plt.figure()
 trajPlot =  tp.plot_traj(t1, id = True)
+plt.title("Trajectories for " + str(tmpCleanPath.parts[-1]))
 trajFig.savefig(outputPath / 'traj.png')
 idFig = plt.figure()
 idPlot = tp.annotate(t1[t1['frame'] == startFrame], cleanFrames[startFrame])
+plt.title("ID Plot for " + str(tmpCleanPath.parts[-1]))
+
 idFig.savefig(outputPath  / "id.png")
+t1.to_pickle(outputPath / "traj.pkl")
 # def cvtFig2Numpy(fig):
 #     canvas = FigureCanvas(fig)
 #     canvas.draw()
