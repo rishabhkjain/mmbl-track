@@ -66,7 +66,6 @@ def getDistance(index, x2, y2, d):
     dx = abs(x1 - x2)
     dy = abs(y1 - y2)
     d = math.sqrt(dx*dx + dy*dy)
-    print(d)
     return d
 
 numParticles = t1['particle'].nunique()
@@ -124,7 +123,8 @@ for i in range (startFrame,endFrame-1):
             compactDict[index][2].append(tempDir)
             compactDict[index][1] += 1
             compactDict[index][0] += tempDT
-            compactDict[index][4] = getDistance(index, tempX2, tempY2, locDict)
+            if tempX2 != 0 and tempY2 != 0:
+                compactDict[index][4] = getDistance(index, tempX2, tempY2, locDict)
         if index not in fullDict:
             particleLst.add(index)
             tmpDict = {}
