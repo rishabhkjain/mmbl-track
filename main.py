@@ -74,6 +74,10 @@ for i in range (startFrame,endFrame-1):
         tempDY = row['dy']
         tempDT = row['dr']
         tempDir = row['direction']
+        tempX1 = row['x']
+        tempX2 = row['x_b']
+        tempY1 = row['y']
+        tempY2 = row ['y_b']
         #replace NaN values with 0
         if pd.isna(tempDT):
             tempDT = 0
@@ -83,8 +87,15 @@ for i in range (startFrame,endFrame-1):
             tempDX = 0
         if pd.isna(tempDY):
             tempDY = 0
- 
-        snapshot = (tempDX, tempDY, tempDT, tempDir)
+        if pd.isna(tempX1):
+            tempX1 = 0
+        if pd.isna(tempX2):
+            tempX2 = 0
+        if pd.isna(tempY1):
+            tempY1 = 0
+        if pd.isna(tempY2):
+            tempY2 = 0
+        snapshot = (tempDX, tempDY, tempDT, tempDir, tempX1, tempX2, tempY1, tempY2)
 
 
         if index not in compactDict:
@@ -139,7 +150,7 @@ for miniDict in fullDict:
     with open(outputPath / "detailedResults"  / (str(miniDict) + '_detailedResult.csv'), 'w') as csv_file:
         writer = csv.writer(csv_file)
         for key, value in fullDict[miniDict].items():
-            writer.writerow([key, value[0], value[1],value[2],value[3]])
+            writer.writerow([key, value[0], value[1],value[2],value[3], value[4], value[5], value[6], value[7]])
 trajFig = plt.figure()
 trajPlot =  tp.plot_traj(t1, label = True)
 plt.title("Trajectories for " + str(tmpCleanPath.parts[-1]))
