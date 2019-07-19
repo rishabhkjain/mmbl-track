@@ -66,6 +66,7 @@ def getDistance(index, x2, y2, d):
     dx = abs(x1 - x2)
     dy = abs(y1 - y2)
     d = math.sqrt(dx*dx + dy*dy)
+    print(d)
     return d
 
 numParticles = t1['particle'].nunique()
@@ -152,7 +153,7 @@ except:
 with open(outputPath  / 'compactResults.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
     for key, value in compactDict.items():
-        writer.writerow([key, value[0], value[1], value[2], value[3]])
+        writer.writerow([key, value[0], value[1], value[2], value[3], value[4]])
 try:
     os.mkdir(outputPath / "detailedResults") 
 except:
