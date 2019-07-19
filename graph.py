@@ -75,49 +75,49 @@ plt.ylabel("Count")
 plt.title("Velocity Distribution for " + str(folderPath.parts[-1]))
 
 plt.savefig(folderPath / "velocity.png")
-# try:
-#     os.mkdir(folderPath / "graphs")
-# except:
-#     print("Overwriting data: directory already exists")
-# for particle in folderLst:
-#     endID = particle.find("_")
-#     name = particle[:endID]
-#     directionLst = []
-#     f = []
-#     delta = []
-#     with open (folderPath / "detailedResults" / particle, 'r') as csvfile:
-#         plots = csv.reader(csvfile, delimiter=',')
-#         for row in plots:
-#             if len(row) == 0:
-#                 continue
-#             directionLst.append(float(row[4]))
-#             f.append(int(row[0]))
-#             delta.append(float(row[3]))
-#     dirPlot = plt.figure()
-#     plt.xlim(180, 1200)
-#     plt.xlabel("Frame")
-#     plt.ylabel("Direction (rad)")
-#     plt.title("Direction of Movement for Particle " + str(name)+ " in " + str(folderPath.parts[-1]))
+try:
+    os.mkdir(folderPath / "graphs")
+except:
+    print("Overwriting data: directory already exists")
+for particle in folderLst:
+    endID = particle.find("_")
+    name = particle[:endID]
+    directionLst = []
+    f = []
+    delta = []
+    with open (folderPath / "detailedResults" / particle, 'r') as csvfile:
+        plots = csv.reader(csvfile, delimiter=',')
+        for row in plots:
+            if len(row) == 0:
+                continue
+            directionLst.append(float(row[4]))
+            f.append(int(row[0]))
+            delta.append(float(row[3]))
+    dirPlot = plt.figure()
+    plt.xlim(180, 1200)
+    plt.xlabel("Frame")
+    plt.ylabel("Direction (rad)")
+    plt.title("Direction of Movement for Particle " + str(name)+ " in " + str(folderPath.parts[-1]))
 
-#     plt.plot(f, directionLst)
-#     dirPlotName = name + "_dir.png"
+    plt.plot(f, directionLst)
+    dirPlotName = name + "_dir.png"
 
-#     plt.savefig(folderPath / "graphs" / dirPlotName)
-#     totalLst = [0]*len(delta)
-#     for i in range (len(delta)):
-#         if i == 0:
-#             totalLst[i] = delta[i]
-#         else:
+    plt.savefig(folderPath / "graphs" / dirPlotName)
+    totalLst = [0]*len(delta)
+    for i in range (len(delta)):
+        if i == 0:
+            totalLst[i] = delta[i]
+        else:
             
-#             totalLst[i] = delta[i] + totalLst [i-1]
-#     distPlot = plt.figure()
-#     plt.plot(f, totalLst)
-#     plt.xlim(180, 1200)
-#     plt.xlabel("Frame")
-#     plt.ylabel("Distance (\u03BCm)")
-#     plt.ylim(0, 1200)
-#     dirPlotName = name + "_movement.png"
-#     plt.title("Displacement for Particle " + str(name)+ " in " + str(folderPath.parts[-1]))
+            totalLst[i] = delta[i] + totalLst [i-1]
+    distPlot = plt.figure()
+    plt.plot(f, totalLst)
+    plt.xlim(180, 1200)
+    plt.xlabel("Frame")
+    plt.ylabel("Distance (\u03BCm)")
+    plt.ylim(0, 1200)
+    dirPlotName = name + "_movement.png"
+    plt.title("Displacement for Particle " + str(name)+ " in " + str(folderPath.parts[-1]))
 
-#     plt.savefig(folderPath / "graphs" / dirPlotName)
-#     plt.close()
+    plt.savefig(folderPath / "graphs" / dirPlotName)
+    plt.close()

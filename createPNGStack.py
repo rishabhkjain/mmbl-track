@@ -24,13 +24,14 @@ args = vars(ap.parse_args())
 path = Path(args["input"])
 
 dirLst = os.listdir(path)
-
+print(dirLst)
 for item in dirLst:
     vidDir = curLoc / path / item
     os.chdir(vidDir)
     vidPath = vidDir /  os.listdir()[0]
-    # print(vidPath)
-    # print(vidDir)
-    subprocess.call(['ffmpeg', '-i', vidPath, '-r', '4', (vidDir / "outputFile%04d.png")])
+    print(vidPath)
+    print(vidDir)
+    print(item)
+    subprocess.call(['ffmpeg', '-i', str(vidPath), '-r', '4', str(vidDir / "outputFile%04d.png")])
 
 print(dirLst)
