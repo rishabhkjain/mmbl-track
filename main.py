@@ -52,6 +52,7 @@ cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
 # diameter & minmass need to be adjusted based on sample
 f = tp.batch(frames[startFrame:endFrame],diameter= 19, invert=True, minmass = 3500) 
 f2 = tp.locate(frames[startFrame],diameter= 19, invert=True, minmass = 3500)
+
 t = tp.link_df(f, 12, memory=12)
 compactDict = {} #dictionaries for storing relevant data
 fullDict = {}
@@ -175,6 +176,9 @@ plt.title("ID Plot for " + str(tmpCleanPath.parts[-1]))
 
 idFig.savefig(outputPath  / "id.png")
 t1.to_pickle(outputPath / "traj.pkl")
+f.to_pickle(outputPath / "f.pkl")
+f2.to_pickle(outputPath / "f2.pkl")
+
 # def cvtFig2Numpy(fig):
 #     canvas = FigureCanvas(fig)
 #     canvas.draw()
