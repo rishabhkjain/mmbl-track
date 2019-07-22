@@ -45,12 +45,13 @@ cleanStackPath = tmpCleanPath  / "*.png"
 startFrame = int(args["start"])
 endFrame = len(frames) 
 frameCount = endFrame - startFrame
-trajCont = int(0.4 * (frameCount)) #minimum number of times the particle's trajectory needs to be identified
+trajCont = min(int(0.4 * (frameCount)), 120) #minimum number of times the particle's trajectory needs to be identified
 cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
 
 #f is a dataframe containing all locations particles were located
 # diameter & minmass need to be adjusted based on sample
 f = tp.batch(frames[startFrame:endFrame],diameter= 19, invert=True, minmass = 3500) 
+f2 = tp.locate(frames[startFrame],diameter= 19, invert=True, minmass = 3500)
 t = tp.link_df(f, 12, memory=12)
 compactDict = {} #dictionaries for storing relevant data
 fullDict = {}
