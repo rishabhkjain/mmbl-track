@@ -45,7 +45,7 @@ cleanStackPath = tmpCleanPath  / "*.png"
 startFrame = int(args["start"])
 endFrame = len(frames) 
 frameCount = endFrame - startFrame
-trajCont = min(int(0.4 * (frameCount)), 120) #minimum number of times the particle's trajectory needs to be identified
+trajCont = min(int(0.4 * (frameCount)), 240) #minimum number of times the particle's trajectory needs to be identified
 cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
 
 #f is a dataframe containing all locations particles were located
