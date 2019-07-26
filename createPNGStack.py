@@ -32,6 +32,7 @@ for item in dirLst:
     print(vidPath)
     print(vidDir)
     print(item)
-    subprocess.call(['ffmpeg', '-i', str(vidPath), '-r', '4', str(vidDir / "outputFile%04d.png")])
+    fps = 4 #change this value for controlling fps
+    subprocess.call(['ffmpeg', '-i', str(vidPath), '-r', fps , str(vidDir / "outputFile%04d.png")])
 
 print(dirLst)

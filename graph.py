@@ -39,14 +39,14 @@ velocityLst = []
 for i in range (len (idLst)):
 
 
-    numFrames = frameCount[i]
+    numFrames = int(frameLst[i][-1]) - int(frameLst[i][0])
     distance = distLst[i]
     
     if numFrames == 0:
         velocity = 0
     else:
         velocity = (distance/numFrames)*fps
-    print(idLst[i], distance, velocity)
+    # print(idLst[i], distance, velocity)
 
     velocityLst.append(velocity)
 count = 0
@@ -60,6 +60,7 @@ for i in range (len(velocityLst)):
         count += 1
         totalVelocity += velocityLst[i]
         filterVelLst.append(velocityLst[i])
+        print(idLst[i], velocityLst[i])
 avgVelocity = totalVelocity/count
 print(avgVelocity)
 

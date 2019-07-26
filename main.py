@@ -52,8 +52,8 @@ cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
 # diameter & minmass need to be adjusted based on sample
 f = tp.batch(frames[startFrame:endFrame],diameter= 19, invert=True, minmass = 3500) 
 f2 = tp.locate(frames[startFrame],diameter= 19, invert=True, minmass = 3500)
-
-t = tp.link_df(f, 12, memory=12)
+maxChange = 12
+t = tp.link_df(f, maxChange, memory=12)
 compactDict = {} #dictionaries for storing relevant data
 fullDict = {}
 locDict = {}
@@ -167,7 +167,7 @@ for miniDict in fullDict:
         for key, value in fullDict[miniDict].items():
             writer.writerow([key, value[0], value[1],value[2],value[3], value[4], value[5], value[6], value[7]])
 trajFig = plt.figure()
-trajPlot =  tp.plot_traj(t1, label = True)
+trajPlot =  tp.plot_traj(t1, label = False)
 plt.title("Trajectories for " + str(tmpCleanPath.parts[-1]))
 trajFig.savefig(outputPath / 'traj.png')
 idFig = plt.figure()

@@ -43,4 +43,5 @@ else:
     print ("Running Analysis")
     for i in range (len(blurredLst)):
         print (blurLst[i], cleanLst[i], resultLst[i])
-        subprocess.call(['python','main.py',  '--input', str(blurLst[i]), '-c', str(cleanLst[i]), '-o', str(outputPath / resultLst[i]), '-s', '180'], shell = False)
+        startFrame = 180
+        subprocess.call(['python','main.py',  '--input', str(blurLst[i]), '-c', str(cleanLst[i]), '-o', str(outputPath / resultLst[i]), '-s', startFrame], shell = False)
