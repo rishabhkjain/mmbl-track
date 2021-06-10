@@ -18,9 +18,7 @@ fullList = list(path.glob('**/*.mp4'))
 print(fullList)
 for j in range (len(fullList)):
     tmpPath = Path((str(fullList[j]).split("."))[0])
-    print('tmpPath is ', tmpPath)
     newFilePath = tmpPath / "video.mp4"
-    print('newFilePath is ', newFilePath)
     try:
         #os.mkdir(tmpPath)
         Path.mkdir(tmpPath)
