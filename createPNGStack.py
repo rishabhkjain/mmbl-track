@@ -23,16 +23,19 @@ args = vars(ap.parse_args())
 
 path = Path(args["input"])
 
-dirLst = os.listdir(path)
-print(dirLst)
+#dirLst = os.listdir(path)
+dirLst = path.iterdir()
+print('dirLst ', dirLst)
 for item in dirLst:
-    vidDir = curLoc / path / item
-    os.chdir(vidDir)
-    vidPath = vidDir /  os.listdir()[0]
-    print(vidPath)
-    print(vidDir)
-    print(item)
+    #vidDir = curLoc / path / item
+    vidDir = curLoc / path
+    #os.chdir(vidDir)
+    #vidPath = vidDir /  os.listdir()[0]
+    vidPath = vidDir / item.name
+    print('vidPath ', vidPath)
+    print('vidDir ', vidDir)
+    print('item ', item)
     fps = 4 #change this value for controlling fps
-    subprocess.call(['ffmpeg', '-i', str(vidPath), '-r', fps , str(vidDir / "outputFile%04d.png")])
+    subprocess.call(['ffmpeg', '-i', str(vidPath), '-r', str(fps), str(vidDir / "outputFile%04d.png")])
 
 print(dirLst)

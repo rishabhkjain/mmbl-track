@@ -3,15 +3,32 @@
 
 Results are stored by name of input folder of the png stack. Compact results has the particle id, total displacement, total number of frames it was tracked across, direction list, frame list of where it was tracked and simple displacement. Total displacement is displacement along the specific path that the particle took (inaccurate sometimes due to oscillation detected back and forth). Simple displacement is the distance between the final and intial point for the swimmer. For each tracked particle, detailed results includes a frame by frame snapshot of the dx, dy, total displacement and change in direction.
 
-  
-  
+## Setup
+
+This repo is written in Python 2. You may need to install pip2.7 to install packages in Python 2 on your mmachine. If this is necessary, use the following command to do so: 
+
+$ wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+$ sudo python2.7 get-pip.py
+$ which pip2.7
+
+If $ which pip2.7 returns a directory, then everything has installed correctly. Now you can use the following steps to set up a virtual environment with the correct packages for this repo. 
+
+1. Create a virtual environment using:
+
+$ python -m virtualenv ./env
+$ source env/bin/activate
+
+2. Install the required packages at the correct versions using:
+
+$ pip2.7 install -r requirements.txt 
+ 
 ## Walkthrough 
 Sample pipeline for analysis. Assume video files are grouped by amplitude for each sample in a test protocol. We will be analyzing test protocol a for this walkthrough. For example, `media/tpa/s1/a100` has multiple mp4 files inside it. All commands need to be run in the root directory where the scripts are located. 
 
   
 
 1) `python createFolders.py --input media/tpa`
->This puts all of the videos found recursively in the `media/tpa` folder into their own folders and renames them for later scripts. 
+>This puts all of the videos found recursively in the `media/tpa` folder into their own folders and renames them for later scripts. NOTE: The video files in this directory must be .mp4 format.  
 2) `python createPNGStack.py --input media/tpa/a100`
 >This converts all of the videos located in `media/tpa/s1/a100` to a png stack. This command needs to be run individuall on all of the amplitude subfolders (ex. `media/tpa/s1/a75`)
 3) `python blurAll.py --input media/tpa/ --fast 0`
