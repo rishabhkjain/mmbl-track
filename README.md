@@ -58,5 +58,8 @@ Sample pipeline for analysis. Assume video files are grouped by amplitude for ea
 2) Line 56, can modify maxChange and memory to filter velocities
 3) Line 170, can turn labels on or off on the trajectory plot
 
+### `graph.py`
+1) Line 21-23  minDist, fps, scalar. (What is scalar?)
+
 
 
