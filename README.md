@@ -7,16 +7,16 @@ Results are stored by name of input folder of the png stack. Compact results has
 
 This repo is written in Python 2. You may need to install pip2.7 to install packages in Python 2 on your machine:  
 
-`$ wget https://bootstrap.pypa.io/pip/2.7/get-pip.py    
-$ sudo python2.7 get-pip.py    
-$ which pip2.7   ` 
+`$ wget https://bootstrap.pypa.io/pip/2.7/get-pip.py    `     
+`$ sudo python2.7 get-pip.py    `     
+`$ which pip2.7   `      
 
 If $ which pip2.7 returns a directory, then everything has installed correctly. Now you can use the following steps to set up a virtual environment with the correct packages for this repo. 
 
 1. Create a virtual environment using:
 
-`$ python -m virtualenv ./env    
-$ source env/bin/activate     `
+`$ python -m virtualenv ./env    `     
+`$ source env/bin/activate     `     
 
 2. Install the required packages at the correct versions using:
 
