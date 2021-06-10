@@ -1,6 +1,7 @@
 from __future__ import division, unicode_literals, print_function  # for compatibility with Python 2 and 3
 
 import matplotlib as mpl
+mpl.use('agg')
 import matplotlib.pyplot as plt
 import csv
 import argparse
@@ -39,14 +40,16 @@ args = vars(ap.parse_args())
 tmpPath = Path(args["input"])
 pngStackPath = tmpPath / "*.png" 
 
-frames = pims.ImageSequence(str(pngStackPath), as_grey = True) #import pngstack into trackpy
+#frames = pims.ImageSequence(str(pngStackPath), as_grey = True) #import pngstack into trackpy
+frames = pims.ImageSequence(str(pngStackPath)) # import pngstack into trackpy
 tmpCleanPath = Path(args["clean"])
 cleanStackPath = tmpCleanPath  / "*.png"
 startFrame = int(args["start"])
 endFrame = len(frames) 
 frameCount = endFrame - startFrame
 trajCont = min(int(0.4 * (frameCount)), 240) #minimum number of times the particle's trajectory needs to be identified
-cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
+#cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
+cleanFrames = pims.ImageSequence(str(cleanStackPath))
 
 #f is a dataframe containing all locations particles were located
 # diameter & minmass need to be adjusted based on sample
@@ -149,32 +152,37 @@ print(begin)
 outputPath = Path(args["output"])
 print(outputPath)
 try:
-    os.mkdir(outputPath)
+    #os.mkdir(outputPath)
+    Path.mkdir(outputPath)
 except:
     print("Overwriting data - directory already exists")
-with open(outputPath  / 'compactResults.csv', 'w') as csv_file:
+with open('{0}/compactResults.csv'.format(outputPath), 'w') as csv_file:
     writer = csv.writer(csv_file)
     for key, value in compactDict.items():
         writer.writerow([key, value[0], value[1], value[2], value[3], value[4]])
 try:
-    os.mkdir(outputPath / "detailedResults") 
+    #os.mkdir(outputPath / "detailedResults") 
+    Path.mkdir(outputPath / "detailedResults")
 except:
     print("Overwriting data - directory already exists")
        
 for miniDict in fullDict:
-    with open(outputPath / "detailedResults"  / (str(miniDict) + '_detailedResult.csv'), 'w') as csv_file:
+    #with open(outputPath / "detailedResults"  / (str(miniDict) + '_detailedResult.csv'), 'w') as csv_file:
+    with open('{0}/detailedResults/{1}_detailedResult.csv'.format(outputPath, str(miniDict)), 'w') as csv_file: 
         writer = csv.writer(csv_file)
         for key, value in fullDict[miniDict].items():
             writer.writerow([key, value[0], value[1],value[2],value[3], value[4], value[5], value[6], value[7]])
 trajFig = plt.figure()
 trajPlot =  tp.plot_traj(t1, label = False)
 plt.title("Trajectories for " + str(tmpCleanPath.parts[-1]))
-trajFig.savefig(outputPath / 'traj.png')
+#trajFig.savefig(outputPath / 'traj.png')
+trajFig.savefig('{0}/traj.png'.format(outputPath))
 idFig = plt.figure()
 idPlot = tp.annotate(t1[t1['frame'] == startFrame], cleanFrames[startFrame])
 plt.title("ID Plot for " + str(tmpCleanPath.parts[-1]))
 
-idFig.savefig(outputPath  / "id.png")
+#idFig.savefig(outputPath  / "id.png")
+idFig.savefig('{0}/id.png'.format(outputPath))
 t1.to_pickle(outputPath / "traj.pkl")
 f.to_pickle(outputPath / "f.pkl")
 f2.to_pickle(outputPath / "f2.pkl")

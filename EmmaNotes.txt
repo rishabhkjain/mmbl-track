@@ -1,0 +1,27 @@
+# Notes on setting up Rishabh's code on Emma's machine.
+# Machine: Linux Ubuntu 20.04
+# Date: 06-10-2021
+# Rishabh's code is Python 2 based on commands in README.md
+
+1. install pip2.7 so that I can install python packages
+
+$ wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+$ sudo python2.7 get-pip.py
+$ which pip2.7 
+
+2. create a virtual environment inside the repo and activate
+
+$ python -m virtualenv ./env
+$ source env/bin/activate
+
+3. updated createFolders.py to use Path commands instead of OS commands
+
+4. Useful commentary on how to include requirements in a git repo without
+uploading the entire virtual environment: https://stackoverflow.com/questions/6590688/is-it-bad-to-have-my-virtualenv-directory-inside-my-git-repository
+
+5. To install the right version of opencv (cv2): 
+
+$ pip2 install opencv-python==4.2.0.32
+
+
+

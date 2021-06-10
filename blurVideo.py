@@ -13,7 +13,8 @@ path = Path(args["input"])
 
 newPath = Path(str(path) + "_blurred")
 try:
-	os.mkdir(newPath)
+	#os.mkdir(newPath)
+        Path.mkdir(newPath)
 except:
 	print("Overwriting Data")
 
@@ -21,10 +22,12 @@ except:
 
 
 
-dirLst = os.listdir(path)
+#dirLst = os.listdir(path)
+dirLst = list(path.iterdir())
 for item in dirLst:
-    if item[-1] == "4":
-        continue
-    subprocess.call(['python', 'blurPhoto.py', '--input',str( path / item), "--output", str(newPath  / item)])
+    print('Currently processing ', item)
+    #if item[-1] == "4":
+    #    continue
+    subprocess.call(['python', 'blurPhoto.py', '--input',str(item), "--output", str(newPath  / item.name)])
 
 # print(dirLst)

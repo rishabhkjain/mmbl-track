@@ -21,6 +21,11 @@ If $ which pip2.7 returns a directory, then everything has installed correctly. 
 2. Install the required packages at the correct versions using:
 
 `$ pip2.7 install -r requirements.txt    `
+
+>To get the required packages, run:
+`$ pip2.7 freeze   `    
+
+And copy the results into the requirements.txt file. Make sure to do this inside of an active virtualenv in Python2!
  
 ## Walkthrough 
 Sample pipeline for analysis. Assume video files are grouped by amplitude for each sample in a test protocol. We will be analyzing test protocol a for this walkthrough. For example, `media/tpa/s1/a100` has multiple mp4 files inside it. All commands need to be run in the root directory where the scripts are located. 

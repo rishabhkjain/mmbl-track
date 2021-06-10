@@ -9,12 +9,13 @@ ap.add_argument("-i", "--input", required=True,
 	help="path to input image")
 ap.add_argument("-o", "--output", required=True,
 	help="path to output image")
-ap.add_argument("-f", "--fast", required=True,
-	help="binary for determining if calculating circles")
+#ap.add_argument("-f", "--fast", required=True,
+	#help="binary for determining if calculating circles")
 args = vars(ap.parse_args())
 path = args["input"] 
 outputPath = args["output"] 
-flag = int(args["fast"])
+#flag = int(args["fast"])
+flag = 0 # for now do not detect circles
 
 image = cv2.imread(path)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -59,5 +60,8 @@ if flag:
 			# cv2.rectangle(output, (x - rad, y - rad), (x + rad, y + rad), (0, 128, 255), -1)
 	color = int(image[int(height-5)][int(width- 5)][0])
 	fullColor = (color, color, color)
-cv2.rectangle(output, (width- dX, height-dY), (width, height), fullColor, -1)
+
+color = (251, 251, 251) # USER DEFINED
+fullColor = color
+cv2.rectangle(output, (width-dX, height-dY), (width, height), fullColor, -1)
 cv2.imwrite(outputPath, output)

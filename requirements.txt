@@ -1,2 +1,23 @@
+backports.functools-lru-cache==1.6.4
+cycler==0.10.0
+enum34==1.1.10
+futures==3.3.0
+imageio==2.6.1
+kiwisolver==1.1.0
+matplotlib==2.2.5
+numpy==1.16.6
+opencv-python==4.2.0.32
+pandas==0.24.2
 pathlib==1.0.1
+Pillow==6.2.2
+PIMS==0.5
+pyparsing==2.4.7
+python-dateutil==2.8.1
+pytz==2021.1
+PyYAML==5.4.1
+scipy==1.2.3
+six==1.16.0
+slicerator==1.0.0
+subprocess32==3.5.4
+trackpy==0.4.2
 

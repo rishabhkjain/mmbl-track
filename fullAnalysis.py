@@ -18,9 +18,14 @@ outputPath = Path(args["output"])
 
 blurredLst = list()
 
-for root,dirs,files in os.walk(path):
-    if not dirs:
-        blurredLst.append(Path(root))
+for path_object in path.glob('**/*'):
+    if path_object.is_dir():
+        blurredLst.append(path_object)
+
+#for root,dirs,files in os.walk(path):
+#    if not dirs:
+#        blurredLst.append(Path(root))
+
 cleanLst = list()
 resultLst = list()
 blurLst = list()
@@ -43,5 +48,5 @@ else:
     print ("Running Analysis")
     for i in range (len(blurredLst)):
         print (blurLst[i], cleanLst[i], resultLst[i])
-        startFrame = 180
-        subprocess.call(['python','main.py',  '--input', str(blurLst[i]), '-c', str(cleanLst[i]), '-o', str(outputPath / resultLst[i]), '-s', startFrame], shell = False)
+        startFrame = 180 
+        subprocess.call(['python','main.py',  '--input', str(blurLst[i]), '-c', str(cleanLst[i]), '-o', str(outputPath / resultLst[i]), '-s', str(startFrame)], shell = False)
