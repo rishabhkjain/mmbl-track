@@ -47,7 +47,7 @@ Sample pipeline for analysis. Assume video files are grouped by amplitude for ea
 6) `python graphAll.py --input results/tpa`
 >Create plots from results and store them in the results directory
 
-##  Items to Modify
+##  User-Defined Values
 ### `createPNGStack.py`
 1) Line 35, modify fps value (do *not* make higher than sampling fps)
 ### `fullAnalysis.py`
@@ -57,6 +57,9 @@ Sample pipeline for analysis. Assume video files are grouped by amplitude for ea
 1) Line 53, two key values are diameter and minmass, use getParameters jupyter notebook to calibrate for sample. 
 2) Line 56, can modify maxChange and memory to filter velocities
 3) Line 170, can turn labels on or off on the trajectory plot
+
+### `graph.py`
+1) Line 21-23  minDist, fps, scalar. (What is scalar?)
 
 
 
