@@ -28,10 +28,10 @@ dirLst = path.iterdir()
 print('dirLst ', dirLst)
 for item in dirLst:
     #vidDir = curLoc / path / item
-    vidDir = curLoc / path / item.name
+    vidDir = curLoc / path 
     #os.chdir(vidDir)
     #vidPath = vidDir /  os.listdir()[0]
-    vidPath = vidDir  
+    vidPath = vidDir / item.name
     print('vidPath ', vidPath)
     print('vidDir ', vidDir)
     print('item ', item)
