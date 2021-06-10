@@ -13,6 +13,8 @@ This repo is written in Python 2. You may need to install pip2.7 to install pack
 
 If $ which pip2.7 returns a directory, then everything has installed correctly. Now you can use the following steps to set up a virtual environment with the correct packages for this repo. 
 
+If you are in an OS environment you may need to install wget using `% brew install wget`. 
+
 1. Create a virtual environment using:
 
 `$ python -m virtualenv ./env    `     
@@ -36,8 +38,8 @@ Sample pipeline for analysis. Assume video files are grouped by amplitude for ea
 >This puts all of the videos found recursively in the `media/tpa` folder into their own folders and renames them for later scripts. NOTE: The video files in this directory must be .mp4 format.  
 2) `python createPNGStack.py --input media/tpa/a100`
 >This converts all of the videos located in `media/tpa/s1/a100` to a png stack. This command needs to be run individuall on all of the amplitude subfolders (ex. `media/tpa/s1/a75`)
-3) `python blurAll.py --input media/tpa/ --fast 0`
->For blurring the videos and removing the excess markers. Creates a cloned folder with a png stack in same root directory of original folder containing png stack. For example `media/tpa/s1/a100/s1_a100_f1_v1/` will now have a blurred clone at `media/tpa/s1/a100/s1_a100_f1_v1_blurred`. If fast is set equal to 1, the script runs a lot faster but does not detect the fiducial markers and polystyrene beads (only removes timestamps). 
+3) `python blurAll.py --input media/tpa/`
+>For blurring the videos and removing the excess markers. Creates a cloned folder with a png stack in same root directory of original folder containing png stack. For example `media/tpa/s1/a100/s1_a100_f1_v1/` will now have a blurred clone at `media/tpa/s1/a100/s1_a100_f1_v1_blurred`.  
 4) `mkdir results/tpa`
 > Make the results directory
 5) `python fullAnalysis.py --input media/tpa/ --output results/tpa`
