@@ -47,7 +47,7 @@ Sample pipeline for analysis. Assume video files are grouped by amplitude for ea
 6) `python graphAll.py --input results/tpa`
 >Create plots from results and store them in the results directory
 
-##  Items to Modify
+##  User-Defined Values
 ### `createPNGStack.py`
 1) Line 35, modify fps value (do *not* make higher than sampling fps)
 ### `fullAnalysis.py`
