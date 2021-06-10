@@ -1,4 +1,6 @@
 from pathlib import Path
+import matplotlib as mpl
+mpl.use('agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
@@ -16,14 +18,16 @@ ap.add_argument("-i", "--input", required=True,
 args = vars(ap.parse_args())
 
 
-minDist = 10
+minDist = 0.1 # USER DEFINED  
 fps = 4
 scalar = 0.27
 idLst, deltaLst, frameCount, dirLst, frameLst, distLst = [], [], [], [], [], []
 folderPath = Path(args["input"])
-folderLst = os.listdir(folderPath / "detailedResults")
+#folderLst = os.listdir(folderPath / "detailedResults")
+folderLst = list(folderPath.iterdir())
 testLst = []
-with open(folderPath / "compactResults.csv",'r') as csvfile:
+#with open(folderPath / "compactResults.csv",'r') as csvfile:
+with open('{0}/compactResults.csv'.format(folderPath), 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     for row in plots:
         if len(row) == 0:
@@ -46,12 +50,13 @@ for i in range (len (idLst)):
         velocity = 0
     else:
         velocity = (distance/numFrames)*fps
-    # print(idLst[i], distance, velocity)
+    print(idLst[i], distance, velocity)
 
     velocityLst.append(velocity)
 count = 0
 totalVelocity = 0
 filterVelLst = []
+print('dist list', distLst)
 for i in range (len(velocityLst)):
     if distLst[i] < minDist:
         continue
@@ -64,14 +69,16 @@ for i in range (len(velocityLst)):
 avgVelocity = totalVelocity/count
 print(avgVelocity)
 
-with open(folderPath / 'velocity.txt', 'w') as f:
+#with open(folderPath / 'velocity.txt', 'w') as f:
+with open('{0}/velocity.txt'.format(folderPath), 'w') as f:
   f.write(str(avgVelocity))
 displacementDistrib = plt.figure()
 plt.hist(distLst,range=[0, 1000], bins = 20)
 plt.xlabel("Distance (\u03BCm)")
 plt.ylabel("Count")
 plt.title("Displacement Distribution for " + str(folderPath.parts[-1]))
-plt.savefig(folderPath / "displacement.png")
+#plt.savefig(folderPath / "displacement.png")
+plt.savefig('{0}/displacement.png'.format(folderPath))
 
 velocityDistrib = plt.figure()
 plt.hist(filterVelLst,range=[0, 1], bins = 10)
@@ -79,7 +86,8 @@ plt.xlabel("Velocity (\u03BCm/s)")
 plt.ylabel("Count")
 plt.title("Velocity Distribution for " + str(folderPath.parts[-1]))
 
-plt.savefig(folderPath / "velocity.png")
+#plt.savefig(folderPath / "velocity.png")
+plt.savefig('{0}/velocity.png'.format(folderPath))
 # try:
 #     os.mkdir(folderPath / "graphs")
 # except:

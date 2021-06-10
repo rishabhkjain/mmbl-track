@@ -15,12 +15,14 @@ path = Path(args["input"])
 
 fileLst = list()
 
-for root,dirs,files in os.walk(path):
-    if not dirs:
-        tmpPath = Path(root)
+#for root,dirs,files in os.walk(path):
+#    if not dirs:
+for path_object in path.glob('**/*'):
+    if path_object.is_dir():
+        #tmpPath = Path(root)
+        tmpPath = Path(path_object)
         up = tmpPath.parent
         fileLst.append(up)
-
         
 
 for item in fileLst:

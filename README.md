@@ -22,7 +22,7 @@ If $ which pip2.7 returns a directory, then everything has installed correctly. 
 
 `$ pip2.7 install -r requirements.txt    `
 
->To get the required packages, run:
+>To get a list of the required packages, run:
 `$ pip2.7 freeze   `    
 
 And copy the results into the requirements.txt file. Make sure to do this inside of an active virtualenv in Python2!
