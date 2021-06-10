@@ -5,22 +5,22 @@ Results are stored by name of input folder of the png stack. Compact results has
 
 ## Setup
 
-This repo is written in Python 2. You may need to install pip2.7 to install packages in Python 2 on your mmachine. If this is necessary, use the following command to do so: 
+This repo is written in Python 2. You may need to install pip2.7 to install packages in Python 2 on your machine:  
 
-$ wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
-$ sudo python2.7 get-pip.py
-$ which pip2.7
+`$ wget https://bootstrap.pypa.io/pip/2.7/get-pip.py    
+$ sudo python2.7 get-pip.py    
+$ which pip2.7   ` 
 
 If $ which pip2.7 returns a directory, then everything has installed correctly. Now you can use the following steps to set up a virtual environment with the correct packages for this repo. 
 
 1. Create a virtual environment using:
 
-$ python -m virtualenv ./env
-$ source env/bin/activate
+`$ python -m virtualenv ./env    
+$ source env/bin/activate     `
 
 2. Install the required packages at the correct versions using:
 
-$ pip2.7 install -r requirements.txt 
+`$ pip2.7 install -r requirements.txt    `
  
 ## Walkthrough 
 Sample pipeline for analysis. Assume video files are grouped by amplitude for each sample in a test protocol. We will be analyzing test protocol a for this walkthrough. For example, `media/tpa/s1/a100` has multiple mp4 files inside it. All commands need to be run in the root directory where the scripts are located. 
