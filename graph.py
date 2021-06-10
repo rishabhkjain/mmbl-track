@@ -19,8 +19,8 @@ args = vars(ap.parse_args())
 
 
 minDist = 0.1 # USER DEFINED  
-fps = 4
-scalar = 0.27
+fps = 4 # USER DEFINED
+scalar = 0.27 # USER DEFINED
 idLst, deltaLst, frameCount, dirLst, frameLst, distLst = [], [], [], [], [], []
 folderPath = Path(args["input"])
 #folderLst = os.listdir(folderPath / "detailedResults")

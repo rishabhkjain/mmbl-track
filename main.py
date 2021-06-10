@@ -41,6 +41,7 @@ tmpPath = Path(args["input"])
 pngStackPath = tmpPath / "*.png" 
 
 #frames = pims.ImageSequence(str(pngStackPath), as_grey = True) #import pngstack into trackpy
+print('Importing PNG stack...')
 frames = pims.ImageSequence(str(pngStackPath)) # import pngstack into trackpy
 tmpCleanPath = Path(args["clean"])
 cleanStackPath = tmpCleanPath  / "*.png"
@@ -49,6 +50,7 @@ endFrame = len(frames)
 frameCount = endFrame - startFrame
 trajCont = min(int(0.4 * (frameCount)), 240) #minimum number of times the particle's trajectory needs to be identified
 #cleanFrames =  pims.ImageSequence(str(cleanStackPath), as_grey = True)
+print('Importing clean PNG stack...')
 cleanFrames = pims.ImageSequence(str(cleanStackPath))
 
 #f is a dataframe containing all locations particles were located
@@ -61,6 +63,7 @@ compactDict = {} #dictionaries for storing relevant data
 fullDict = {}
 locDict = {}
 particleLst = set()
+print('Filtering trajectories...')
 t1 = tp.filter_stubs(t, trajCont) #filter out the trajectories that do not exist longer than trajCount
 # Compare the number of particles in the unfiltered and filtered data.
 print('Before:', t['particle'].nunique())
